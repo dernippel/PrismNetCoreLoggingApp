@@ -60,6 +60,7 @@ namespace PrismNetCoreLoggingApp
                 made: Made.Of(
                     req => loggerFactoryMethod.MakeGenericMethod(req.Parent.ImplementationType),
                     ServiceInfo.Of<LoggerFactory>()));
+
         }
     }
 }
