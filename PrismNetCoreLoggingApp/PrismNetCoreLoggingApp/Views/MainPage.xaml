@@ -6,6 +6,11 @@
 
     <StackLayout HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand">
         <Label Text="Welcome to Xamarin Forms and Prism!" />
+        <Button Text="Do something" Command="{Binding Path=DoSomethingCommand}" ></Button>
+        <StackLayout Orientation="Horizontal">
+            <Label Text="Counter is:"></Label>
+            <Label Text="{Binding Path=Counter}"></Label>
+        </StackLayout>
     </StackLayout>
 
 </ContentPage>

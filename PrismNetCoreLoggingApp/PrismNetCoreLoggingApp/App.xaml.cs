@@ -9,6 +9,13 @@ using Prism.DryIoc;
 [assembly: XamlCompilation(XamlCompilationOptions.Compile)]
 namespace PrismNetCoreLoggingApp
 {
+    using DryIoc;
+
+    using Microsoft.Extensions.Logging;
+
+    using PrismNetCoreLoggingApp.Interfaces;
+    using PrismNetCoreLoggingApp.Services;
+
     public partial class App : PrismApplication
     {
         /* 
@@ -31,6 +38,28 @@ namespace PrismNetCoreLoggingApp
         {
             containerRegistry.RegisterForNavigation<NavigationPage>();
             containerRegistry.RegisterForNavigation<MainPage>();
+
+            // register services
+            containerRegistry.RegisterSingleton<IMyService, MyService>();
+
+            // create logger factory
+            ILoggerFactory loggerFactory = new LoggerFactory().AddDebug();
+
+            // get the container
+            var container = containerRegistry.GetContainer();
+
+            // register factory
+            container.UseInstance(loggerFactory);
+
+            // get factory method
+            var loggerFactoryMethod = typeof(LoggerFactory).GetMethod("CreateLogger");
+
+            // register ILogger<T>
+            container.Register(
+                typeof(ILogger<>),
+                made: Made.Of(
+                    req => loggerFactoryMethod.MakeGenericMethod(req.Parent.ImplementationType),
+                    ServiceInfo.Of<LoggerFactory>()));
         }
     }
 }
