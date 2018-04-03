@@ -61,6 +61,7 @@ namespace PrismNetCoreLoggingApp
 
             // register logger with factory method
             container.Register(typeof(ILogger<>), made: Made.Of(req => loggerFactoryMethod.MakeGenericMethod(req.Parent.ImplementationType)));
+
         }
     }
 }
